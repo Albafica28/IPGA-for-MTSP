@@ -19,22 +19,22 @@ function [bestPop, bestFval, minFval] = ga_mTSP(objective, nVars, nCity, opts)
 %}
     
     def.FunctionTolerance = 1e-10;
-	def.MaxFunctionEvaluations = inf;
+    def.MaxFunctionEvaluations = inf;
     def.MaxGenerations = inf;
-	def.MaxStallGenerations = 50*ceil(log(nVars));
-	def.PopulationSize = 100*ceil(nVars/10);
+    def.MaxStallGenerations = 50*ceil(log(nVars));
+    def.PopulationSize = 100*ceil(nVars/10);
     def.Display = "on";
     if nargin < 4
-		opts = struct();
+        opts = struct();
     end
     customized = fieldnames(opts);
-	for i = 1:numel(customized)
-		if ~isfield(def,customized{i})
-			error('输入的options中有不能识别的项目%s。',customized{i});
-		end
-		def.(customized{i}) = opts.(customized{i});
-	end
-	opts = def; stalls = 0; iter = 1; 
+    for i = 1:numel(customized)
+        if ~isfield(def,customized{i})
+            error('输入的options中有不能识别的项目%s。',customized{i});
+        end
+        def.(customized{i}) = opts.(customized{i});
+    end
+    opts = def; stalls = 0; iter = 1;
     Population = my_Create(opts.PopulationSize, nVars, nCity);
     minFval = objective(Population(1, :));
     while true
@@ -124,9 +124,9 @@ function s = IPGA(s, nCity, pMean)
 end
 
 function display(gen, fcount, best, fval, stall)
-	if mod(gen, 30) == 1
-		disp('                                  Best           Mean      Stall');
-		disp('Generation      Func-count        f(x)           f(x)    Generations');
-	end
-	fprintf('%5d     %12d    %12g    %12g    %5d\n',gen,fcount,best,nanmean(fval),stall);
+    if mod(gen, 30) == 1
+        disp('                                  Best           Mean      Stall');
+        disp('Generation      Func-count        f(x)           f(x)    Generations');
+    end
+    fprintf('%5d     %12d    %12g    %12g    %5d\n',gen,fcount,best,nanmean(fval),stall);
 end
