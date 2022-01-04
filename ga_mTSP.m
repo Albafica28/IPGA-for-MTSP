@@ -43,7 +43,7 @@ function [bestPop, bestFval, minFval] = ga_mTSP(objective, nVars, nCity, opts)
         iter = iter + 1;
         [fval, idx] = sort(fval);
         minFval(iter) = fval(1);
-        bestPop = Population(1, :);
+        
         Population = Population(idx, :);
         if minFval(iter) < minFval(iter-1) - opts.FunctionTolerance
             stalls = 0;
@@ -64,6 +64,7 @@ function [bestPop, bestFval, minFval] = ga_mTSP(objective, nVars, nCity, opts)
             Population(idx(i, :), :) = IPGA(Population(idx(i, :), :), nCity, pMean);
         end
     end
+    bestPop = Population(1, :);
     bestFval = minFval(iter);
 end
 
