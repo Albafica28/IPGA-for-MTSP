@@ -1,5 +1,5 @@
 function [bestPop, bestFval, minFval] = ga_mTSP(objective, nVars, nCity, opts)
-	%{ 
+%{ 
      This project developed a genetic algorithm package to solve the 
      MTSP based on the IPGA proposed by Zhou et al.(2018).
      INPUT: 
@@ -15,8 +15,8 @@ function [bestPop, bestFval, minFval] = ga_mTSP(objective, nVars, nCity, opts)
        Zhou, H., Song, M., & Pedrycz, W. (2018). A comparative study of 
        improved GA and PSO in solving multiple traveling salesmen problem. 
        Applied Soft Computing, 64, 564-580.
-    Author: Albafica28 
-    %}
+    Author: https://github.com/Albafica28/IPGA-for-MTSP.git 
+%}
     
     def.FunctionTolerance = 1e-10;
 	def.MaxFunctionEvaluations = inf;
@@ -24,7 +24,6 @@ function [bestPop, bestFval, minFval] = ga_mTSP(objective, nVars, nCity, opts)
 	def.MaxStallGenerations = 50*ceil(log(nVars));
 	def.PopulationSize = 100*ceil(nVars/10);
     def.Display = "on";
-    def.pMean = 1;
     if nargin < 4
 		opts = struct();
     end
@@ -59,7 +58,7 @@ function [bestPop, bestFval, minFval] = ga_mTSP(objective, nVars, nCity, opts)
            (fcount > opts.MaxFunctionEvaluations)
             break % 终止条件
         end
-        pMean = (stalls./opts.MaxStallGenerations)*opts.pMean;
+        pMean = stalls./opts.MaxStallGenerations;
         idx = reshape(1:opts.PopulationSize, opts.PopulationSize/10, 10);
         for i = 1:opts.PopulationSize/10
             Population(idx(i, :), :) = IPGA(Population(idx(i, :), :), nCity, pMean);
